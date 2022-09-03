@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>What color is Tilikum Crossing right now?</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="twitter:site" content="@cjreinhardt" />
+  <meta name="twitter:title" content="What color is Tilikum Crossing right now?" />
+  <meta name="twitter:description"
+    content="A little site that tries to tell you the current color of the Tilikum Crossing bridge in Portland, Oregon." />
+  <meta property="og:url" content="https://portlandtilikumColor.creinhardt.com" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="What color is Tilikum Crossing right now?" />
+  <meta property="og:description"
+    content="A little site that tries to tell you the current color of the Tilikum Crossing bridge in Portland, Oregon." />
+    <script src="sunCalc.js"></script>
+</head>
+
+<body>
+  <div id="main">
+    <em>What color is Tilikum Crossing right now?</em>
+    <div id="loader"></div>
+    <h1 id="tilikumColor"></h1>
+    <p id="updatedTime"></p>
+    <a href="https://blog.trimet.org/2016/03/21/how-it-works-tilikum-crossing-art-lights/" id="moreInfo" target="_blank">More information</a>
+  </div>
+
+  <script>
+    fetch('https://waterservices.usgs.gov/nwis/iv/?sites=14211720&format=json')
+      .then(res => res.json())
+      .then((out) => {
+        const currentTimePacific = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+        console.log(currentTimePacific);
+        loader.remove();
+        const waterTemp = (out.value.timeSeries[0].values[0].value[0].value)
+        const waterFahrenheit = (parseFloat(waterTemp) * 9/5) + 32
+        var sunTimes = SunCalc.getTimes(new Date(), 45.523064, -122.676483);
+        console.log("Dawn: " + sunTimes.dawn + " Night: " + sunTimes.night)
+        updatedTime.innerText = "Water Temperature: " + waterFahrenheit.toString().substring(0, 5) + "°"
+        if (waterFahrenheit >= 65) {
+          tilikumColor.innerText = "Orange"
+          document.body.classList.add("orange")
+        } else if (waterFahrenheit <= 64){
+          tilikumColor.innerText = "Green"
+          document.body.classList.add("green")
+        } else {
+          tilikumColor.innerText = "Probably Green"
+          document.body.classList.add("green")
+        }
+      }).catch(err => console.error(err));
+  </script>
+</body>
+
+</html>
