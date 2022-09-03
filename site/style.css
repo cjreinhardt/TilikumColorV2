@@ -33,6 +33,11 @@ h1 {
   color: white;
 }
 
+.gray {
+  background-image: linear-gradient(rgb(131,131,123),rgb(148,141,131) 70%);
+  color: white;
+}
+
 #loader {
   border: 6px solid #f3f3f3;
   /* Light grey */
