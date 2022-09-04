@@ -32,9 +32,9 @@
     var dateNow = Date.parse(currentTimePacific);
 
     var sunTimes = SunCalc.getTimes(new Date(), 45.523064, -122.676483);
-    console.log("Dawn: " + sunTimes.dawn + " Night: " + sunTimes.night)
+    console.log("Dawn: " + sunTimes.dawn + " Night: " + sunTimes.sunset)
     var dateDawn = Date.parse(sunTimes.dawn);
-    var dateNight = Date.parse(sunTimes.night);
+    var dateNight = Date.parse(sunTimes.sunset);
 
     if ((dateNow > dateDawn) && (dateNow < dateNight)) {
       loader.remove();
